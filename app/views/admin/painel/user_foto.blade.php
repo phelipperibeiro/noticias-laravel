@@ -9,9 +9,9 @@
         <h2>Sua foto altual é</h2>
 
         @if(empty($dadosAdministrador->user_foto))
-        Sem foto
+             Sem foto
         @else
-        <img src="{{asset($dadosAdministrador->user_foto)}}" width="120" height="90">
+             <img src="{{asset($dadosAdministrador->user_foto)}}" width="120" height="90">
         @endif
 
         <br />

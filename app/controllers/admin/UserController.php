@@ -40,7 +40,7 @@ class UserController extends \BaseController {
 
         $rules = [
             'nome' => 'required|unique:tb_users,nome',
-            'email' => 'required|unique:tb_users,username',
+            'email' => 'required|unique:tb_users,username|email',
             'senha' => 'required'
         ];
 
@@ -80,7 +80,7 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function show($id) {
-            //echo 'dsdvsdvsdvsdvsdvdvsvsd_____'.$id;
+        //echo 'dsdvsdvsdvsdvsdvdvsvsd_____'.$id;
     }
 
     /**
@@ -90,9 +90,17 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        //
+  
+        $dadosUser = \app\models\admin\UserModel::find($id);
+        
+        if(\Auth::user()->id != $id){
+          \Session::flash('mensagem', '<span class="text-danger">acesso negado</span>');
+          return \Redirect::to('lista/administrador');
+        }
+        return \View::make('admin.painel.user_editar')->with(['user' => $dadosUser]);   
     }
 
+   
     /**
      * Update the specified resource in storage.
      *
@@ -100,7 +108,39 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+        $rules = [
+            'nome' => 'required',
+            'email' => 'required|unique:tb_users,username|email',
+        ];
+
+        $message = [
+            'required' => '<span class="text-danger">O Campo :attribute é obrigatório</span>',
+            'email' => '<span class="text-danger">Digite um e-mail válido</span>',
+            'unique' => '<span class="text-danger">O :attribute ja e existente</span>'
+        ];
+
+        $validator = \Validator::make(\Input::all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return \Redirect::back()->withInput(\Input::all())->withErrors($validator->messages());
+        } else {
+           
+            $attributes = [
+                'nome' => \Input::get('nome'),
+                'username' => \Input::get('email')
+            ];
+
+            $atualizado = \app\models\admin\UserModel::where('id', $id)->update($attributes);
+
+            $msgSuccess = '<span class="text-success">Atualizado com sucesso</span>';
+            $msgDanger = '<span class="text-danger">Erro ao tentar atualizar os dados</span>';
+
+            if ($atualizado) {
+                return \Redirect::back()->with('mensagem', $msgSuccess);
+            } else {
+                return \Redirect::back()->with('mensagem', $msgDanger);
+            }          
+        }
     }
 
     /**

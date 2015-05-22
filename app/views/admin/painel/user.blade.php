@@ -18,7 +18,7 @@
                 <tr>
                     <th class="text-center">Nome</th>
                     <th class="text-center">Foto</th>
-                    <th class="text-center">Alterar Foto</th>
+                    <th class="text-center">Alterar Dados</th>
                     <th class="text-center">Deletar Foto</th>
                     <th class="text-center">Alterar Senha</th>
                 </tr>
@@ -32,11 +32,12 @@
                             @if(empty($administrador->user_foto))
                             <a href="/foto/create" class="btn btn-primary">Adicionar Foto</a>
                             @else
-                            <img src="{{asset($administrador->user_foto)}}" width="40" heigh="20" >
+                            <a href="/foto/create"><img src="{{asset($administrador->user_foto)}}" width="40" heigh="20" ></a>    
                             @endif
                         </td>
+                    
                         <td class="text-center">
-                            <a href="/foto/create" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="/user/{{$administrador->id}}/edit" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td class="text-center">
                             <a data-id="{{$administrador->id}}" class="btn btn-danger btn-deletar-administrador"><span class="glyphicon glyphicon-remove"></span></a>
