@@ -15,9 +15,13 @@
 Route::resource('/admin', 'app\controllers\admin\LoginAdminController', ['only' => ['index']]);
 Route::resource('/adminLogar', 'app\controllers\admin\LoginAdminController', ['only' => ['store']]);
 
+Route::resource('/lista/post', 'app\controllers\admin\PostController');
+Route::resource('/post', 'app\controllers\admin\PostController');
+
 Route::group(['before' => 'blockAcessNotAdmin'], function() {
 
     Route::group(['before' => 'blockAcessoAuthor'], function() {
+        
         /* listar usuarios */
         Route::resource('/lista/administrador', 'app\controllers\admin\UserController');
         /* mostra formulario para cadastrar a foto */
@@ -26,6 +30,7 @@ Route::group(['before' => 'blockAcessNotAdmin'], function() {
         Route::resource('/user', 'app\controllers\admin\UserController');
         /* altera os password do usuario */
         Route::resource('/password', 'app\controllers\admin\PasswordController');
+        
     });
     /* painel */
     Route::resource('/painel', 'app\controllers\admin\PainelController');

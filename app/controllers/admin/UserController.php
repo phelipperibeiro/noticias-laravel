@@ -10,7 +10,7 @@ class UserController extends \BaseController {
      * @return Response
      */
     public function index() {
-        $dadosAdministradores = \app\models\admin\UserModel::where('user_is_admin', '=', 1)->where('user_is_autor', '!=', 1)->paginate(7);
+        $dadosAdministradores = \app\models\admin\UserModel::where('user_is_admin', '=', 1)->where('user_is_autor', '!=', 1)->where('id', '=', \Auth::user()->id)->paginate(7);
 
         $data = [
             'administradores' => $dadosAdministradores->getCollection(),
