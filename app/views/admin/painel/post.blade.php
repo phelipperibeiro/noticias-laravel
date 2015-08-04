@@ -21,25 +21,39 @@
             </thead>
             <tbody>
                 @foreach($posts as $post)
-                <tr>
-                    <td>{{ $post->post_titulo }}</td>
-                    <td>{{ $post->nome }}</td>
-                    <td>{{ $post->nome_categoria }}</td>
-                    <td>{{ $post->post_visitas }}</td>
-                    <td> Alterar </td>
-                    <td> Deletar </td>
-                </tr>
+                        @if($idUser == $post->autor && count($postsUser) > 0 )
+                            <tr>
+                                <td>{{ $post->post_titulo }}</td>
+                                <td>{{ $post->nome }}</td>
+                                <td>{{ $post->nome_categoria }}</td>
+                                <td>{{ $post->post_visitas }}</td>
+                                <td> 
+                                    <a href="/post/{{ $post->idPost }}/edit" class="btn btn-primary" type="button">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a> 
+                                </td>
+                                <td>
+                                    {{Form::open(['method' => 'delete', 'route' => ['post.destroy', $post->idPost]])}}
+                                        <a>
+                                            <button type="submit" class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </a>
+                                    {{Form::close()}}
+                                </td>
+                            </tr>
+                        @endif
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="6"class="text-center" >{{ $links }}</td>
                 </tr>
-                
+
             </tfoot>
         </table>
-    
-       
+
+
     </div>
 </div>
 

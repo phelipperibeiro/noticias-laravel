@@ -16,7 +16,7 @@ class PostController extends \BaseController {
         /*query*/
         /*
            select * from tb_posts  p 
-           inner join tb_users  u on (p.autor = u.id)
+           inner join tb_users u on (p.autor = u.id)
            inner join tb_categorias c on (p.post_categoria = c.id)         
         */
         $posts = \app\models\admin\PostModel::select('*', 'tb_posts.id as idPost')
@@ -25,12 +25,16 @@ class PostController extends \BaseController {
                 ->groupBy('tb_posts.id')
                 ->paginate(10);
         
+        
+        $postsUser = \app\models\admin\PostModel::where('autor',$idUser)->get();
+        
         //dd($posts->getCollection());
  
         $data = [
             'posts' => $posts->getCollection(),
             'links' => $posts->links(),
-            'idUser' => $idUser
+            'idUser' => $idUser,
+            'postsUser' => $postsUser,
         ];
         
         return \View::make('admin.painel.post')->with($data);
@@ -91,7 +95,10 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        //
+        
+        $delete = \app\models\admin\PostModel::find($id);
+        $delete->delete();
+        return \Redirect::to('/lista/post');
     }
 
 }

@@ -49,7 +49,7 @@ class LoginAdminController extends \BaseController {
     
     public function destroy($param){
         \Auth::logout();
-        return  \Redirect::to('/admin');
+        return \Redirect::to('/admin');
     }
     //Session::flash('mensagem', 'cliente ja existe');
     //return Redirect::to('/')->withInput(Input::except(['nome']));
