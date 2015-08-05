@@ -46,7 +46,11 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function create() {
-       return 'estou aki';
+       
+        $categorias = \app\models\admin\CategoriaModel::all()->lists('nome_categoria', 'id');
+        
+        $data = ['categorias' => $categorias];
+        return \View::make('admin.painel.post_cadastrar')->with($data);
     }
 
     /**
@@ -55,7 +59,40 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function store() {
-        //
+        $rules = [
+            'titulo'    => 'required|unique:tb_posts,post_titulo',
+            'tags'      => 'required',
+            'categorias' => 'required',
+            'slug'      => 'required',
+        ];
+
+        $message = [
+            'required' => '<span class="text-danger">O Campo :attribute é obrigatório</span>',
+            'unique' => '<span class="text-danger">O :attribute ja e existente</span>'
+        ];
+        
+        $validator = \Validator::make(\Input::all(), $rules, $message);
+        
+        if ($validator->fails()) {
+            return \Redirect::back()->withInput(\Input::all())->withErrors($validator->messages());  
+        } else {
+            
+            $attributes = [
+                'post_titulo' => \Input::get('titulo'),
+                'post_tags' => \Input::get('tags'),
+                'post_categoria' => \Input::get('categorias'),
+                'post_slug' => \Input::get('slug'),
+                'autor' => \Auth::user()->id
+            ];
+
+            $cadastrado = \app\models\admin\PostModel::create($attributes);
+
+            if ($cadastrado) {
+                return \Redirect::back()->with('mensagem', '<div class="text-success">Post cadastrado com sucesso</div>');
+            } else {
+                return \Redirect::back()->with('mensagem', '<div class="text-danger">Error ao Cadastrar Post</div>');
+            }
+        } 
     }
 
     /**
