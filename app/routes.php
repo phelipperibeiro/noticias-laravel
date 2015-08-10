@@ -31,6 +31,8 @@ Route::group(['before' => 'blockAcessNotAdmin'], function() {
         /* altera os password do usuario */
         Route::resource('/password', 'app\controllers\admin\PasswordController');
         
+        Route::resource('/lista/categoria', 'app\controllers\admin\CategoriaController');
+        Route::resource('/categoria', 'app\controllers\admin\CategoriaController');
     });
     /* painel */
     Route::resource('/painel', 'app\controllers\admin\PainelController');
