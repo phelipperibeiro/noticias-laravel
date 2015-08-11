@@ -64,6 +64,7 @@ class PostController extends \BaseController {
             'tags'      => 'required',
             'categorias' => 'required',
             'slug'      => 'required',
+            'post'      => 'required'
         ];
 
         $message = [
@@ -82,6 +83,7 @@ class PostController extends \BaseController {
                 'post_tags' => \Input::get('tags'),
                 'post_categoria' => \Input::get('categorias'),
                 'post_slug' => \Input::get('slug'),
+                'post_texto' => \Input::get('post'),
                 'autor' => \Auth::user()->id
             ];
 
@@ -139,7 +141,8 @@ class PostController extends \BaseController {
             'titulo'     => 'required',
             'tags'       => 'required',
             'categorias' => 'required',
-            'slug'       => 'required'
+            'slug'       => 'required',
+            'post'       => 'required',
         ];
 
         $message = [
@@ -155,7 +158,8 @@ class PostController extends \BaseController {
                 'post_titulo' => \Input::get('titulo'),
                 'post_tags' => \Input::get('tags'),
                 'post_categoria' => \Input::get('categorias'),
-                'post_slug' => \Input::get('slug')
+                'post_slug' => \Input::get('slug'),
+                'post_texto' => \Input::get('post')
             ];
 
             $atualizado = \app\models\admin\PostModel::where('id', $id)->update($attributes);

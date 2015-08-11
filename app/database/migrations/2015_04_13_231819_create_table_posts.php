@@ -22,6 +22,7 @@ class CreateTablePosts extends Migration {
             $tabela->string('post_slug', 80);
             $tabela->integer('post_visitas');
             $tabela->string('post_thumb', 100);
+            $tabela->text('post_texto');
         });
     }
 

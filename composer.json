@@ -6,7 +6,8 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-                "intervention/image": "2.0.5"
+                "intervention/image": "2.0.5",
+                "tinymce/tinymce": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

@@ -20,10 +20,12 @@
             <br />
             {{Form::label('Categorias')}}
             {{Form::select('categorias', $categorias, Input::old('categorias'), ['class' => 'form-control']);}} {{ $errors->first('categorias') }}
-            
             <br />
             {{Form::label('Slug')}}
             {{Form::text('slug', Input::old('slug'),['class' => 'form-control']) }} {{ $errors->first('slug') }}
+            <br />         
+            {{Form::label('Post')}}
+            {{Form::textarea('post', Input::old('post'),['class' => 'form-control']) }} {{ $errors->first('post') }}
             <br />
             {{Form::submit('Cadastrar', ['class' => 'btn btn-primary'])}}
                 

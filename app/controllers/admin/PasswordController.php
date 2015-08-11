@@ -15,7 +15,7 @@ class PasswordController extends \BaseController {
             $msg = '<span class="text-danger">Voce nao pode alterar a senha de outro usuario</span>';
             return \Redirect::to('/lista/administrador')->with('mensagem', $msg);
         }
-        return \View::make('admin.painel.userPassword')->with(['idUser' => \Auth::user()->id]);
+        return \View::make('admin.painel.user_password')->with(['idUser' => \Auth::user()->id]);
     }
 
     /**
