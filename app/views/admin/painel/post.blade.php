@@ -5,6 +5,10 @@
 <div id="page-wrapper">
     <div class="row">
         <h2>Posts Cadastrados({{count($posts)}})</h2>
+        @if(Session::has('mensagem'))
+        {{Session::get('mensagem')}}
+        <br />
+        @endif
         <a href="{{URL::to('post/create')}}" class="btn btn-primary">Cadastrar Post</a>
         <br />
         <br />

@@ -117,10 +117,14 @@ class PostController extends \BaseController {
         $data = ['categorias' => $categorias, 'post' => $dadosPost];
       
         if(!$dadosPost){
-          \Session::flash('mensagem', '<span class="text-danger">Post nao encontrada</span>');
-          return \Redirect::to('categoria');
+          \Session::flash('mensagem', '<span class="text-danger">Post não encontrado</span>');
+          return \Redirect::to('post');
         }
-
+        
+        if(\Auth::user()->id != $dadosPost->autor){
+          \Session::flash('mensagem', '<span class="text-danger">Voce não tem permissão para editar esse post</span>');
+          return \Redirect::to('post');
+        }
         return \View::make('admin.painel.post_editar')->with($data);
     }
 

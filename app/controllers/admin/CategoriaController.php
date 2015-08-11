@@ -29,10 +29,7 @@ class CategoriaController extends \BaseController {
      *
      * @return Response
      */
-    public function store() 
-    {
-        
-        
+    public function store() {
         $rules = [
             'nome' => 'required|unique:tb_categorias,nome_categoria'
         ];
@@ -80,12 +77,12 @@ class CategoriaController extends \BaseController {
      */
     public function edit($id) {
         $dadosCategoria = \app\models\admin\CategoriaModel::find($id);
-      
-        if(!$dadosCategoria){
-          \Session::flash('mensagem', '<span class="text-danger">Categoria nao encontrada</span>');
-          return \Redirect::to('categoria');
+
+        if (!$dadosCategoria) {
+            \Session::flash('mensagem', '<span class="text-danger">Categoria nao encontrada</span>');
+            return \Redirect::to('categoria');
         }
-        return \View::make('admin.painel.categoria_editar')->with(['categoria' => $dadosCategoria]);   
+        return \View::make('admin.painel.categoria_editar')->with(['categoria' => $dadosCategoria]);
     }
 
     /**
@@ -95,7 +92,7 @@ class CategoriaController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-         $rules = [
+        $rules = [
             'nome' => 'required|unique:tb_categorias,nome_categoria',
         ];
 
@@ -109,7 +106,7 @@ class CategoriaController extends \BaseController {
         if ($validator->fails()) {
             return \Redirect::back()->withInput(\Input::all())->withErrors($validator->messages());
         } else {
-           
+
             $attributes = [
                 'nome_categoria' => \Input::get('nome')
             ];
@@ -123,7 +120,7 @@ class CategoriaController extends \BaseController {
                 return \Redirect::back()->with('mensagem', $msgSuccess);
             } else {
                 return \Redirect::back()->with('mensagem', $msgDanger);
-            }          
+            }
         }
     }
 

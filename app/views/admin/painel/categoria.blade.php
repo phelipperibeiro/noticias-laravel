@@ -8,6 +8,7 @@
     <div class="row">
         @if(Session::has('mensagem'))
         {{Session::get('mensagem')}}
+        <br />
         @endif
         <h2>Listar Categoria</h2>
         <a href="{{URL::to('categoria/create')}}" class="btn btn-primary">Cadastrar Categoria</a>
