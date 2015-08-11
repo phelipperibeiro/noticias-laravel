@@ -10,8 +10,7 @@ class CategoriaController extends \BaseController {
      * @return Response
      */
     public function index() {
-        $categorias = \app\models\admin\CategoriaModel::all(); //->lists('nome_categoria', 'id');
-        //dd($categorias);
+        $categorias = \app\models\admin\CategoriaModel::all();
         $data = ['categorias' => $categorias];
         return \View::make('admin.painel.categoria')->with($data);
     }

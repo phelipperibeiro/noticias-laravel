@@ -112,7 +112,16 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function edit($id) {
-        //
+        $dadosPost = \app\models\admin\PostModel::find($id);
+        $categorias = \app\models\admin\CategoriaModel::all()->lists('nome_categoria', 'id');
+        $data = ['categorias' => $categorias, 'post' => $dadosPost];
+      
+        if(!$dadosPost){
+          \Session::flash('mensagem', '<span class="text-danger">Post nao encontrada</span>');
+          return \Redirect::to('categoria');
+        }
+
+        return \View::make('admin.painel.post_editar')->with($data);
     }
 
     /**
@@ -122,7 +131,40 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        //
+        $rules = [
+            'titulo'     => 'required',
+            'tags'       => 'required',
+            'categorias' => 'required',
+            'slug'       => 'required'
+        ];
+
+        $message = [
+            'required' => '<span class="text-danger">O Campo :attribute é obrigatório</span>',
+        ];
+
+        $validator = \Validator::make(\Input::all(), $rules, $message);
+
+        if ($validator->fails()) {
+            return \Redirect::back()->withInput(\Input::all())->withErrors($validator->messages());
+        } else {
+            $attributes = [
+                'post_titulo' => \Input::get('titulo'),
+                'post_tags' => \Input::get('tags'),
+                'post_categoria' => \Input::get('categorias'),
+                'post_slug' => \Input::get('slug')
+            ];
+
+            $atualizado = \app\models\admin\PostModel::where('id', $id)->update($attributes);
+
+            $msgSuccess = '<span class="text-success">Atualizado com sucesso</span>';
+            $msgDanger = '<span class="text-danger">Erro ao tentar atualizar os dados</span>';
+
+            if ($atualizado) {
+                return \Redirect::back()->with('mensagem', $msgSuccess);
+            } else {
+                return \Redirect::back()->with('mensagem', $msgDanger);
+            }  
+        }
     }
 
     /**
@@ -132,8 +174,11 @@ class PostController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        
         $delete = \app\models\admin\PostModel::find($id);
+        
+        if(\Auth::user()->id != $delete->autor){
+           return \Redirect::back()->with('mensagem', '<div class="text-danger">Voce não permissão para apagar este post</div>');
+        }
         $delete->delete();
         return \Redirect::to('/lista/post');
     }
