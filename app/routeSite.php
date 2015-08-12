@@ -1,3 +1,3 @@
 <?php
 
-Route::resource('/', 'app\controller\site\homeController',['only' => ['index']]);
+Route::resource('/', 'app\controllers\site\HomeController',['only' => ['index']]);
